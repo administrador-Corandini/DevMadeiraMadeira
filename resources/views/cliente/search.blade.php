@@ -26,8 +26,11 @@
 					@endforeach
 				</tbody>
 			</table>
+			@if(!is_array($cliente))
+				{!! $cliente !!}
+			@endif
 
-			{!! $cliente !!}
+			
 		</div>
 	
 	</div>

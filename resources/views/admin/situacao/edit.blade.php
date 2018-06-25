@@ -10,7 +10,7 @@
                 <table class="table table-condesed table-bordered">
                     <thead>
                         <th>ID</th>
-                        <th>SITUAÇÃO</th>
+                        <th>SITUAÇÃO | PRIORIDADE | CANAL</th>
                     </thead>
                     <tbody>
                         @foreach($situacoes as $situacao)
@@ -23,8 +23,16 @@
                                             <input value="{{csrf_token()}}" name="_token" type="hidden">
                                             <input value="{!!$situacao->id!!}" name="id" type="hidden">
                                             
-                                            <div class="col-md-8">
+                                            <div class="col-md-6">
                                                 <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome Situação" value="{!!$situacao->nome!!}">
+                                            </div>
+
+                                            <div class="col-md-1">
+                                                <input type="text" class="form-control" id="prioridade" name="prioridade" placeholder="Prioridade" value="{!! $situacao->prioridade !!}">
+                                            </div>
+
+                                            <div class="col-md-1">
+                                                <input type="text" class="form-control" id="canal" name="canal" placeholder="canal" value="{!! $situacao->canal !!}">
                                             </div>
 
                                             <div class="col-md-4">

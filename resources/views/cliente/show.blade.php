@@ -73,41 +73,48 @@
 								Dados Produto
 							</div>
 							<div class="panel-body">
-								
-								@foreach($cliente->produto as $p)
-								<div class="form-group">
-									<label>Carteira:</label>
-									<span>{{$p->carteira->nome}}</span>
-								</div>
-								
-
-								<div class="form-group">
-									<label>Produto:</label>
-									<span>{!!$p->nome!!}</span>
-								</div>
-								
-								<div class="form-group">
-									<label>ID Produto Marketplace:</label>
-									<span>{{$p->id_pedido_marketplace}}</span>
-								</div>
-
-								<div class="form-group">
-									<label>ID Produto:</label>
-									<span>{{$p->id_produto}}</span>
-								</div>
-
-								<div class="form-group">
-									<label>Markplace:</label>
-									<span>{{$p->marketplace->nome}}</span>
-								</div>
-								@if(isset($p->link))
+								@if(!$cliente->produto->isEmpty())
+									@foreach($cliente->produto as $p)
 									<div class="form-group">
-										<label>Link:</label>
-										<span><a href="{{$p->link}}" target="_NEW">EAGLE</a></span>
+										<label>Carteira:</label>
+										<span>{{$p->carteira->nome}}</span>
 									</div>
+									
+
+									<div class="form-group">
+										<label>Produto:</label>
+										<span>{!!$p->nome!!}</span>
+									</div>
+									
+									<div class="form-group">
+										<label>ID Produto Marketplace:</label>
+										<span>{{$p->id_pedido_marketplace}}</span>
+									</div>
+
+									<div class="form-group">
+										<label>ID Produto:</label>
+										<span>{{$p->id_produto}}</span>
+									</div>
+
+									<div class="form-group">
+										<label>Markplace:</label>
+										<span>{{$p->marketplace->nome}}</span>
+									</div>
+									@if(isset($p->link))
+										<div class="form-group">
+											<label>Link:</label>
+											<span><a href="{{$p->link}}" target="_NEW">EAGLE</a></span>
+										</div>
+									@endif
+									<hr>
+									@endforeach
+								@else
+
+									<div class="alert alert-info">
+										Nenhum Produto Achado
+									</div>
+								
 								@endif
-								<hr>
-								@endforeach
 							</div>
 						</div>
 
@@ -177,12 +184,21 @@
 																<a class="btn btn-success" href="SIP:0{{$t->telefone}}">
 																	<i class="fas fa-phone"></i>
 																</a>
-																<a href="{{url('/link')}}/{{$cliente->id}}/3/{{$t->telefone}}/{{$cliente->produto[0]->id_pedido_marketplace}}" class="btn btn-primary">
-																	<i class="far fa-comment"></i>
-																</a>
-																<a target="_new" href="{{url('/link')}}/{{$cliente->id}}/2/{{$t->telefone}}/{{$cliente->produto[0]->id_pedido_marketplace}}" class="btn btn-success">
-																	<i class="fab fa-whatsapp"></i>
-																</a>
+																@if(isset($cliente->produto[0]))
+																	<a href="{{url('/link')}}/{{$cliente->id}}/3/{{$t->telefone}}/{{$cliente->produto[0]->id_pedido_marketplace}}" class="btn btn-primary">
+																		<i class="far fa-comment"></i>
+																	</a>
+																	<a target="_new" href="{{url('/link')}}/{{$cliente->id}}/2/{{$t->telefone}}/{{$cliente->produto[0]->id_pedido_marketplace}}" class="btn btn-success">
+																		<i class="fab fa-whatsapp"></i>
+																	</a>
+																@else
+																	<a href="{{url('/link')}}/{{$cliente->id}}/3/{{$t->telefone}}/00-999999999" class="btn btn-primary">
+																		<i class="far fa-comment"></i>
+																	</a>
+																	<a target="_new" href="{{url('/link')}}/{{$cliente->id}}/2/{{$t->telefone}}/00-999999999" class="btn btn-success">
+																		<i class="fab fa-whatsapp"></i>
+																	</a>
+																@endif
 															</div>
 
 														</div>
@@ -228,7 +244,11 @@
 															</div>
 
 															<div class="btn-group mr-2">
-																<a target="_new" href="{{url('/link')}}/{{$cliente->id}}/1/{{$e->email}}/{{$cliente->produto[0]->id_pedido_marketplace}}" class="btn btn-danger btn-block"><i class="fas fa-at"></i></a>
+																@if(isset($cliente->produto[0]))
+																	<a target="_new" href="{{url('/link')}}/{{$cliente->id}}/1/{{$e->email}}/{{$cliente->produto[0]->id_pedido_marketplace}}" class="btn btn-danger btn-block"><i class="fas fa-at"></i></a>
+																@else
+																	<a target="_new" href="{{url('/link')}}/{{$cliente->id}}/1/{{$e->email}}/00-999999999" class="btn btn-danger btn-block"><i class="fas fa-at"></i></a>
+																@endif
 															</div>
 
 														</div>
@@ -281,7 +301,7 @@
 							<div class="panel-body">
 
 
-								<div class="alert alert-info">
+								<div class="alert alert-danger">
 									<div class="text-center">
 										<strong>
 											Adicionar Lembrete de Retorno
@@ -355,9 +375,6 @@
 											</div>
 										</div>
 									</div>
-									
-																			
-									
 								</form>
 
 								@foreach($ocorrencia as $oco)

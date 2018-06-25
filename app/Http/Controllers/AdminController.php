@@ -51,7 +51,8 @@ class AdminController extends Controller
 		$file->move($path,$file->getClientOriginalName());
 
 		$row = 1;
-		$header  = ['Pedido MM','Produtos','Pedido Mktplace','Loja Venda','Mês Entrega','CPF Cliente','Telefone A','Telefone B','Nome','Data entregue','Data Entrega'];
+		////				0		  1				2				3			4				5			6				7		8			9				10
+		//$header  = ['Pedido MM','Produtos','Pedido Mktplace','Loja Venda','Mês Entrega','CPF Cliente','Telefone A','Telefone B','Nome','Data entregue','Data Entrega'];
 		if($handle = fopen($path.$file->getClientOriginalName(),'r')){
 			while (($data = fgetcsv($handle, 2000, ";")) !== FALSE) {
 				if($row > 1){
@@ -88,6 +89,35 @@ class AdminController extends Controller
 
 							unset($cliente);
 						}
+					}elseif($carteira == 3){
+						
+						////				0				1			2			3				4				5					6				7			8				9			10				11	
+						//$header  = ['ID PEDIDO','ID RECLAMACAO','DATA SAC','NF MADEIRA','LINK RASTREIO','CLIENTE TELEFONE','CLIENTE TELEFONE 2','ID PEDPED','DESCRICAO','NOME CLIENTE','CPF CLIENTE','LOJA VENDA'];
+						$clienteCPF 		= trim($data[10]);
+						$clienteNome		= trim($data[9]);
+
+						$produtoDataSAC 	= $data[2];
+						$produtoNF			= $data[3];
+						$produtoLink		= $data[4];
+						$produtoIDPedido	= $data[7];
+						$produtoDescricao	= $data[8];
+						$produtoLJVenda		= $data[11];
+
+						$tel1 				= $data[5];
+						$tel2				= $data[6];
+						
+						$cliente = new cliente;
+						$cliente->cadastraCliente($clienteCPF,$clienteNome,$carteira);
+
+						$produto = new produto;
+						$produto->cadastraProdutoTransporte($cliente->id ,$produtoIDPedido,$produtoDescricao,$produtoDataSAC,$produtoLink,$produtoLJVenda,$carteira);
+
+						$telefone1 = new telefone;
+						$telefone1->SalvaTelefone($tel1,$cliente->id);
+
+						$telefone2 = new telefone;
+						$telefone2->SalvaTelefone($tel2,$cliente->id);
+
 					}	
 				
 				}

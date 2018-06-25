@@ -11,11 +11,11 @@ class cliente extends Model
     }
 
     public function searchTelefone($telefone){
-        return $this->hasMany('App\telefone')->where('telefone','like','%'.$telefone.'%')->get();
+        return $this->hasMany('App\telefone');//->where('telefone','like','%'.$telefone.'%')->get();
     }
 
     public function agendaHora(){
-    	return $this->hasMany('App\agendaHora')->where('data','>',date('Y-m-d H:i:s'))->orderBy('data');
+    	return $this->hasMany('App\agendaHora')->where('ativo','0')->orderBy('data');
     }
 
     public function email(){
@@ -25,6 +25,12 @@ class cliente extends Model
     public function produto(){
     	return $this->hasMany('App\produto');
     }
+
+    public function situacao(){
+        return $this->belongsTo('App\situacao');
+    }
+
+
 
     public function cadastraCliente($cpf,$nome,$carteira){
         $cpf = trim($cpf);

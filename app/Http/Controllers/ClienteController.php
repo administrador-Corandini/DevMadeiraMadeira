@@ -17,13 +17,14 @@ use App\agendaHora;
 class ClienteController extends Controller
 {
   public function show($id){
+    $agendaHora = agendahora::where('data','<=',date('Y-m-d H:i:s'))->where('ativo',0)->orderBy('data')->get();
    	$cliente = Cliente::findOrFail($id);
     $ocorrencia = ocorrencia::where('cliente_id', $id)->orderBy('created_at','DESC')->paginate(3);
     $status = statu::all();
     $situacao = situacao::where('carteira_id',$cliente->carteira_id)->get();
     $wpp = wpp::all();
      //return view('cliente/show',['cliente' => $cliente,'status' => $status,'ocorrencia' => $ocorrencia, 'situacao' => $situacao , 'wpp' => $wpp]);
-     return view('cliente/show')->with('cliente', $cliente)->with('status', $status)->with('ocorrencia', $ocorrencia)->with('situacao' , $situacao)->with('wpp' , $wpp);
+     return view('cliente/show')->with('cliente', $cliente)->with('status', $status)->with('ocorrencia', $ocorrencia)->with('situacao' , $situacao)->with('wpp' , $wpp)->with('agendaHora',$agendaHora);
   }
 
   public function create(){
@@ -43,26 +44,23 @@ class ClienteController extends Controller
       $cliente = cliente::where('nome','like','%'.$name.'%')->paginate(30);
 
     if(isset($tel)){
-      $telefone = telefone::where('telefone','like','%'.$tel.'%')->get();
-      //return $telefone;
-      foreach($telefone as $t){
-        $cliente = cliente::findOrFail($t->cliente_id);
-      }
-      
-      //$cliente->searchTelefone('41');
-      return $cliente;
-      //$cliente = telefone::where('telefone','like','%'.$tel.'%')->paginate(30);
-     
-      //return $telefone;
+      $cliente = new cliente;
+      $cliente = DB::select("select clientes.* from clientes inner join telefones on telefones.cliente_id = clientes.id where telefone like ?",['%'.$tel.'%']);
     }
 
     return view('cliente/search')->with('cliente', $cliente);
   }
 
    public function list(){
-
-   		$fichas = Cliente::whereIn('situacao_id',[1,7])->paginate(30);
-   		return view('cliente/list')->with('fichas', $fichas);
+    $situacao = situacao::where('prioridade','>','0')->orderBy('prioridade')->get();
+    $situacoes = array();
+    
+    foreach($situacao as $s){
+      $situacoes[] = $s->id;
+    }
+    $agendaHora = agendahora::where('data','<=',date('Y-m-d H:i:s'))->where('ativo','0')->orderBy('data')->get();
+    $fichas = Cliente::whereIn('situacao_id',[$situacoes])->paginate(30);
+    return view('cliente/list')->with('fichas', $fichas)->with('agendaHora',$agendaHora);
    }
 
   public function addTelefone($id){
@@ -102,8 +100,7 @@ class ClienteController extends Controller
 
 
   public function agendaHoraList(){
-   // return date('H:i:s');
-    $agendaHora = agendahora::where('data','>',date('Y-m-d H:i:s'))->orderBy('data')->paginate(3);
+    $agendaHora = agendahora::where('ativo',0)->orderBy('data')->paginate(30);
     return view('cliente/agendaHora')->with('agendaHora',$agendaHora);
   }
 
@@ -121,7 +118,11 @@ class ClienteController extends Controller
   }
 
   public function agendaHoraID($id){
-    return ;
+    $agendaHora = agendaHora::find($id);
+    $agendaHora->ativo = 1;  
+    $agendaHora->save();
+    echo $agendaHora;
+    return redirect('cliente/agendaHora');
   }
 
   public function salvaOcorrencia(){

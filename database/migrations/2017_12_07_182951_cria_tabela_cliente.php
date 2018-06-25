@@ -13,7 +13,7 @@ class CriaTabelaCliente extends Migration
             $table->engine = 'InnoDB';
 
             $table->increments('id');
-            $table->string('CPF',15)->unique();;
+            $table->string('CPF',16)->unique();;
             $table->string('nome',130);
             $table->boolean('ativo')->default(0);
             //$table->integer('remessa_id')->unsigned()->default(0);

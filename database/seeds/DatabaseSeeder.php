@@ -14,6 +14,7 @@ use App\link;
 use App\situacao;
 use App\carteira;
 use App\wpp;
+use App\canal;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,6 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call('userTableSeeder');
         $this->call('carteiraTableSeeder');
         $this->call('wppTableSeeder');
+        $this->call('CanaisTableSeeder');
         $this->call('situacaoTableSeeder');
         $this->call('ClientesTableSeeder');
         $this->call('StatusTableSeeder');
@@ -34,7 +36,7 @@ class DatabaseSeeder extends Seeder
         $this->call('TipoEnviosTableSeeder');
         $this->call('LinkTableSeeder');
         
-    }
+    }   
 }
 class userTableSeeder extends Seeder
 {
@@ -42,6 +44,18 @@ class userTableSeeder extends Seeder
     public function run()
     {
        user::create(['name' => 'admin','email' => 'administrador@corandini.com.br','password' => bcrypt('741852')]); 
+    }
+}
+
+class CanaisTableSeeder extends Seeder
+{
+
+    public function run()
+    {
+        canal::create(['nome' => 'NÃO INFORMADO']); 
+        canal::create(['nome' => 'TELEFONE']); 
+        canal::create(['nome' => 'WHASTAPP']); 
+       
     }
 }
 

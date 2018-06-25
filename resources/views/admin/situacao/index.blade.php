@@ -7,6 +7,8 @@
             <thead>
                 <th>ID</th>
                 <th>Situação</th>
+                <th>Prioridade</th>
+                <th>Perunta Sobre Canal</th>
                 <th>Edit</th>
                 <th>Apagar</th>
             </thead>
@@ -16,6 +18,7 @@
                     <tr>
                         <td>{!!$situacao->id!!}</td>
                         <td>{!!$situacao->nome!!}</td>
+                        <td>{!! $situacao->prioridade!!}</td>
                         <td><a class="btn btn-primary btn-block" href="{{URL('admin/situacao/'.$situacao->id.'/edit')}}">EDITAR</a></td>
                         <td><a class="btn btn-danger btn-block" href="">APAGAR</a></td>                   
                     </tr>

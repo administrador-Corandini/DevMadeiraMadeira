@@ -21,6 +21,8 @@ class SituacaoController extends Controller
     public function salvarEdit(Request $request){
         $situacao = situacao::findOrFail($request->input('id'));
         $situacao->nome = strtoupper($request->input('nome'));
+        $situacao->prioridade = $request->input('prioridade');
+        $situacao->canal = $request->input('canal');
         $situacao->save();
         return redirect('admin/situacao/edit/'.$situacao->carteira_id);
     }

@@ -32,7 +32,7 @@ class LinkController extends Controller
 										Olá,
 
 										Conforme conversamos via telefone, segue o link para avaliação da nossa loja:
-										Clique no link para avaliar -> http://www.corandini.com.br/link/$link->link_random
+										Clique no link para avaliar -> http://www.knhit.com/mm/$link->link_random
 										É muito importante para nós que sua avaliação seja positiva ao nosso produto, se possível com uma nota 5!
 										Nos colocamos à sua disposição para eventuais dúvidas.
 
@@ -52,13 +52,13 @@ class LinkController extends Controller
     	}elseif ($link->tipo_envio_id == 2) {
     		$mensagemWpp = rawurlencode("Olá,
 Conforme conversamos via telefone, segue o link para avaliação da nossa loja:
-clique no link para avaliar -> http://www.corandini.com.br/link/$link->link_random
+clique no link para avaliar -> http://www.knhit.com/mm/$link->link_random
 É muito importante para nós que sua avaliação seja positiva ao nosso produto, se possível com uma nota 5!
 nos colocamos à sua disposição para eventuais dúvidas.");
     		$linkEnvio = "https://api.whatsapp.com/send?phone=55$link->destino&text=$mensagemWpp";
     		return redirect($linkEnvio);
     	}elseif ($link->tipo_envio_id == 3) {
-    		$linkEnvio = "";
+			$linkEnvio = "Ola, Sobre seu pedido $link->id_produto $mark com a MadeiraMadeira, segue link para avaliacao http://www.knhit.com/mm/$link->link_random A nota 5 e SUPER SATISFEITO!";
     	}
 
     	$link->save();

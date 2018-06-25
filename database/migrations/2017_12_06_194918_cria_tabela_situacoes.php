@@ -16,6 +16,8 @@ class CriaTabelaSituacoes extends Migration
             $table->string('nome');
             $table->integer('carteira_id')->unsigned();
             $table->foreign('carteira_id')->references('id')->on('carteiras');
+            $table->integer('canal')->default(0);
+            $table->integer('prioridade')->default(0);
             $table->timestamps();
         });
     }

@@ -31,9 +31,15 @@ Route::group(['middleware' => 'auth'],function(){
 		Route::post('salvaAddTelefone',	'ClienteController@salvaAddTelefone');
 		Route::post('salvaAddEmail',	'ClienteController@salvaAddEmail');
 		Route::post('agendaHora',		'ClienteController@agendaHora');
+
+		Route::resources([
+			'canal' => 'canalController'
+		]);
 		
 
 	});
+
+	
 	
 	Route::get('/home', 'HomeController@index');
 

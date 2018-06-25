@@ -33,6 +33,10 @@ class produto extends Model
     }
 
     public function cadastraProdutoTransporte($cliente_id ,$id_produto,$nome_produto,$data_SAC,$link,$loja_venda,$carteira_id){
+        if($loja_venda == ''){
+            $loja = 'MM';
+        }
+        
         $this->cliente_id               = $cliente_id;
         $this->ativo                    = 1;
         $this->id_produto               = $id_produto;

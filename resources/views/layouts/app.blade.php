@@ -83,6 +83,14 @@
                                             {{ csrf_field() }}
                                         </form>-->
                                     </li>
+
+                                    <li><a href="{{url('/cliente/list')}}">Fila Clientes</a></li>
+                                    
+                                    @if(isset($agendaHora))
+                                        @if(!$agendaHora->isEmpty() )
+                                            <li><a href="{{ url('/cliente/agendaHora') }}"><span class="glyphicon glyphicon-bell"></span> Agenda Hora</a></li>
+                                        @endif
+                                    @endif
                                 
                             </li>
                         @endguest
