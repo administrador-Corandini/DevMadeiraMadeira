@@ -28,8 +28,13 @@ class CanalController extends Controller
         $rules = array(
             'nome'       => 'required'
         );
+        
+        
+        $messages = [
+            'nome.required' => "Opa é necessario preencher a ocorrencia"
+        ];
 
-        $validator = Validator::make(Request::all(), $rules);
+        $validator = Validator::make(Request::all(), $rules,$messages);
 
         // process the login
         if ($validator->fails()) {

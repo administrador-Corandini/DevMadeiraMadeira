@@ -15,14 +15,14 @@
 
 								<div class="form-group">
 									<label>Nome:</label>
-									<input class="form-control" type="text" name="name" value="{!!strtoupper($cliente->nome)!!}" disabled>
+									<input class="form-control" type="text" name="name" value="{!!$cliente->nome!!}" disabled>
 								</div>
 
 								<div class="form-group">
 									<label>CPF:</label>
 									<input class="form-control" type="text" name="cpf" value="{{$cliente->CPF}}" disabled>
 								</div>
-								<hr>
+								
 							
 								@if(isset($cliente->agendaHora[0]->id))
 									<div class="alert alert-danger">
@@ -52,7 +52,7 @@
 									</div>
 									<hr>
 								@endif
-							
+								<!--
 								<div class="form-group">
 									<label>Pesquisa:</label>
 									<select  class="form-control" name='pesquisa'>
@@ -61,7 +61,7 @@
 										<option value="2">PESQUISA COM SUCESSO</option>
 										<option value="3">PESQUISA SEM SUCESSO</option>
 									</select>
-								</div>								
+								</div>	-->							
 								
 							</div>
 						</div>
@@ -171,7 +171,7 @@
 													</div>
 													
 													<div class="col-md-4">
-														<label for=""></label>
+														<label for="">.</label>
 														<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
 
 															<div class="btn-group mr-2">
@@ -222,7 +222,7 @@
 													<div class="col-md-5">
 														<input class="form-control" type="text" name="email" value="{{$e->email}}">
 													</div>
-													<div class="col-md-4">
+													<div class="col-md-5">
 														<select class="form-control" name="status_id">
 															@foreach($status as $s)
 																	@if($s->id == $e->status_id)
@@ -295,13 +295,14 @@
 					<div class="dados_ocorrencia col-md-12">
 						<div class="panel panel-primary">
 
-							<div class="panel-heading">
+							<div class="panel-heading text-center">
 								Ocorrencias
 							</div>
 							<div class="panel-body">
 
-
-								<div class="alert alert-danger">
+								<a class="btn btn-danger" onclick="javascript:$('#agendahora').toggle();">Agenda Hora</a>
+								
+								<div class="alert alert-danger hiddenEl" id="agendahora">
 									<div class="text-center">
 										<strong>
 											Adicionar Lembrete de Retorno
@@ -328,9 +329,7 @@
 
 											<div class="col-md-3">
 												<div class="form-group">
-													
 													<button class="btn btn-primary btn-block" type='submit'>Agendar</button>
-
 												</div>
 											</div>
 										</div>
@@ -344,7 +343,7 @@
 								<form method="post" action="{{url('cliente/salvaOcorrencia')}}" >
 									<input value="{{csrf_token()}}" name="_token" type="hidden">
 									<input value="{{$cliente->id}}" name="cliente_id" type="hidden">
-									<input value="{{ Auth::user()->name }}" name="user" type="hidden">
+									<input value="{{ Auth::user()->id }}" name="user" type="hidden">
 									<div class="form-group">
 										<label>Nova Ocorrencia</label>
 
@@ -361,26 +360,38 @@
 												</button>	
 											</div>
 										</div>
-										<div class="col-md-8">
+
+										<div class="col-md-4">
 											<div class="form-group">
-												<select  class="form-control" name='situacao'>
+												<select  class="form-control" name='situacao' id="situacao"> 
 													@foreach($situacao as $s)
 														@if($s->id == $cliente->situacao_id)
-															<option  selected value="{{$s->id}}">{!!$s->nome!!}</option>
+															<option class="{{$s->canal}}" selected value="{{$s->id}}">{!!$s->nome!!}</option>
 														@else
-															<option value="{{$s->id}}">{!!$s->nome!!}</option>
+															<option class="{{$s->canal}}" value="{{$s->id}}">{!!$s->nome!!}</option>
 														@endif
 													@endforeach
 												</select>
 											</div>
 										</div>
+
+										<div class="col-md-4" id="canais">
+											<div class="form-group">
+												<select name="canal" id="canal" class="form-control">
+													@foreach($canal as $c)
+														<option class="1" value="{{$c->id}}">{!! $c->nome !!}</option>			
+													@endforeach
+												</select>
+											</div>
+										</div>
+
 									</div>
 								</form>
 
 								@foreach($ocorrencia as $oco)
 									<ul class="list-group">
 										<li class="list-group-item">
-											<label>{{date("d/m/Y h:i:s",strtotime($oco->created_at))}} | {!!$oco->situacao->nome!!} | {!!$oco->user!!}</label>
+											<label>{!!$oco->created_at!!} | {!!$oco->situacao->nome!!} | {!!$oco->user->name!!} | {!! $oco->canal->nome !!}</label>
 											<div class="thumbnail">
 
 												<span>{!! $oco->ocorrencia!!}</span>

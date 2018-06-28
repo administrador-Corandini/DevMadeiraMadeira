@@ -2,16 +2,18 @@
 
 namespace App;
 
+
 use Illuminate\Database\Eloquent\Model;
 
 class cliente extends Model
 {
+
     public function telefone(){
     	return $this->hasMany('App\telefone');
     }
 
     public function searchTelefone($telefone){
-        return $this->hasMany('App\telefone');//->where('telefone','like','%'.$telefone.'%')->get();
+        return $this->hasMany('App\telefone');
     }
 
     public function agendaHora(){
@@ -30,9 +32,22 @@ class cliente extends Model
         return $this->belongsTo('App\situacao');
     }
 
+    public function getNomeAttribute($value){
+        return special_ucwords($value);
+    }
+
+    public function getCpfAttribute($value){
+        return maskCPFCNPJ($value);
+    }
+
+    public function inativa($carteira){
+        return $this->where('carteira_id',$carteira)->update(['ativo' => 0]);
+    }
 
 
-    public function cadastraCliente($cpf,$nome,$carteira){
+
+
+    public function cadastraCliente($cpf,$nome,$fichaNova,$carteira){
         $cpf = trim($cpf);
         $nome = trim($nome);
         $carteira = $carteira;
@@ -44,6 +59,7 @@ class cliente extends Model
             $this->CPF          = $cpf;
             $this->nome         = $nome;
             $this->carteira_id  = $carteira;
+            $this->situacao_id  = $fichaNova; 
             $this->ativo    = 1;
             $this->save();
 
@@ -55,6 +71,9 @@ class cliente extends Model
             $this->situacao_id  = $busca->situacao_id;
             $this->created_at   = $busca->created_at;
             $this->updated_at   = $busca->updated_at;
+            $busca->ativo = 1;
+            $busca->save();
+            
         }
         
         return;

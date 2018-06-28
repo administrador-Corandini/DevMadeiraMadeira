@@ -14,6 +14,12 @@
                         <input type="text" class="form-control" name="nome" value="{!!$carteira->nome!!}" placeholder="Nome">
                     </div>
                 </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="fichanova">Situação de Ficha Nova</label>
+                        <input type="text" class="form-control" id="situacao_ficha_nova" name="situacao_ficha_nova" value="{{$carteira->situacao_ficha_nova}}">
+                    </div>
+                </div>
 
                 <div class="col-md-2 col-md-offset-7">
                     <div class="form-group pull-right">

@@ -19,7 +19,7 @@ class telefone extends Model
 			['cliente_id',$this->cliente_id]
 		])->get();//Faz a busca se ja esta inserido
 		
-		if (count($buscaTelefone) == 0 and strlen($this->telefone) > 7) {
+		if (count($buscaTelefone) == 0 and strlen($this->telefone) > 7 and strlen($this->telefone) < 12) {
 			$this->save();
 		}
 		return;

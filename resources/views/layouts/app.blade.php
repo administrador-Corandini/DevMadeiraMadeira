@@ -34,7 +34,20 @@
             position: fixed;
             z-index: -1;
         }
+
+        .aviso{
+			position: fixed;
+			width: 20%;
+			text-align: center;
+			bottom: 0;
+   			right: 1%;
+        }
+        
+        .hiddenEl{
+            display: none;
+        }
     </style>
+    
 </head>
 <body>
     <div id="app">
@@ -102,7 +115,16 @@
             <div class="container-fluid">
                 @yield('content') 
             </div>
-            
+            <div >
+                
+                @if ($errors->any())
+						<div class="alert alert-danger aviso">
+                            @foreach ($errors->all() as $error)
+                                {!!$error !!}<br>
+                            @endforeach
+						</div>
+				@endif
+            </div>
         </div>
     </div>
 
@@ -111,5 +133,31 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function(){ 
+            setTimeout(function() {
+                $(".aviso").fadeOut().empty();
+            }, 5000);
+        }, false);
+
+
+        document.getElementById('situacao').addEventListener('click', function(){
+
+            if($('select[name="situacao"] :selected').attr('class') == "1"){
+                document.getElementById('canais').style.display = 'inline';
+            }else{
+                document.getElementById('canais').style.display = 'none';
+            }
+         
+        });
+
+        if($('select[name="situacao"] :selected').attr('class') == "1"){
+            document.getElementById('canais').style.display = 'inline';
+        }else{
+            document.getElementById('canais').style.display = 'none';
+        }
+
+
+    </script>
 </body>
 </html>

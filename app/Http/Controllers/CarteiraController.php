@@ -20,6 +20,7 @@ class CarteiraController extends Controller
     public function salvarEdit(Request $request){
         $carteira = carteira::findOrFail($request->input('id'));
         $carteira->nome = strtoupper($request->input('nome'));
+        $carteira->situacao_ficha_nova = $request->input('situacao_ficha_nova');
         $carteira->save();
         return redirect('admin/carteira/'.$carteira->id.'/edit');
     }

@@ -19,7 +19,7 @@
 					@foreach($fichas as $f)
 						<tr>
 							<td> {{$f->id}}</td>
-							<td>{!!strtoupper($f->nome)!!}</td>
+							<td>{!!$f->nome!!}</td>
 							<td>{{$f->CPF}}</td>
 							<td>{!!$f->situacao->nome!!}</td>
 							@if(isset($f->produto[0]))

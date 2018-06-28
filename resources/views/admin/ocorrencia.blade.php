@@ -27,9 +27,9 @@
 				<tbody>
 					@foreach($quantiOcorrencia as $qOco)
 						<tr>
-							<td>{{$qOco->USER}}</td>
-							<td>{{$qOco->quant}}</td>
-							<td>{{number_format((($qOco->quant/$totalOcorrencia)*100),2)}} %</td>
+							<td>{!!$qOco->user!!}</td>
+							<td>{!!$qOco->quant!!}</td>
+							<td>{!!number_format((($qOco->quant/$totalOcorrencia)*100),2)!!} %</td>
 						</tr>
 					@endforeach
 					<tfoot>
@@ -53,9 +53,9 @@
 				<tbody>
 					@foreach($quantiOcorrenciaSituacao as $qOcoSit)
 						<tr>
-							<td>{{$qOcoSit->situacao}}</td>
-							<td>{{$qOcoSit->quant}}</td>
-							<td>{{number_format((($qOcoSit->quant/$totalOcorrencia)*100),2)}} %</td>
+							<td>{!!$qOcoSit->situacao!!}</td>
+							<td>{!!$qOcoSit->quant!!}</td>
+							<td>{!!number_format((($qOcoSit->quant/$totalOcorrencia)*100),2)!!} %</td>
 						</tr>
 					@endforeach
 					<tfoot>
@@ -67,45 +67,6 @@
 					</tfoot>
 				</tbody>
 			</table>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-md-12">
-			<table class="table table-striped table-bordered table-hover table-condensed">
-				<thead>
-					<th>ID CLIENTE</th>
-					<th>CPF</th>
-					<th>NOME</th>
-					<th>ID PEDIDO MARKETPLACE</th>
-					<th>TELEFONE</th>
-					<th>EMAIL</th>
-					<th>SITUAÇÃO</th>
-					<th>DATA OCORRENCIA</th>
-					<th>OCORRENCIA</th>
-				</thead>
-				<tbody>
-					@if($ocorrencia <> null)
-					@foreach($ocorrencia as $oco)
-						<tr>
-							<td>{{$oco->id}}</td>
-							<td>{{$oco->CPF}}</td>
-							<td>{{$oco->nomeCliente}}</td>
-							<td>{{$oco->id_pedido_marketplace}}</td>
-							<td>{{$oco->tel}}</td>
-							<td>{{$oco->mail}}</td>
-							<td>{{$oco->situacao}}</td>
-							<td>{{$oco->created_at}}</td>
-							<td>{{$oco->ocorrencia}}</td>
-						</tr>
-					@endforeach
-					@endif
-					<tr>
-						
-					</tr>
-				</tbody>
-			</table>
-			<!--{$ocorrencia->ocorrencia() }}-->
 		</div>
 	</div>
 @stop

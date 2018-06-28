@@ -27,6 +27,7 @@ class CriaTabelaProduto extends Migration
             $table->date('data_SAC')->nullable();
             $table->string('link')->nullable();
             $table->string('loja_venda')->nullable();
+            $table->string('id_reclamacao')->nullable();
             $table->string('id_pedido_marketplace')->nullable();
             $table->integer('marketplace_id')->unsigned();
             $table->foreign('marketplace_id')->references('id')->on('marketplaces');

@@ -44,7 +44,10 @@ class AdminController extends Controller
 			return "<h1>Selecione Uma Carteira</h1>";
 		}
 
+		$clienteDevolucao = new cliente;
+		$clienteDevolucao->inativa($carteira);
 
+		$carteiraDados = carteira::find($carteira);
 
 		$path = public_path() . '/upload/';
 		$file = $request->file;
@@ -60,8 +63,9 @@ class AdminController extends Controller
 						if(strlen($data[2]) > 5){
 							$aux  					= explode("-",$data[2]) ;
 							$id_marketplace 		= intval($aux[0]);
-							$clienteCPF 			= trim($data[5]);
-							$clienteNome 			= trim($data[8]);
+							$clienteCPF 			= $data[5];
+							
+							$clienteNome 			= $data[8];
 							$nome_produto 			= substr(trim($data[1]),0,199);
 							$id_produto 			= trim($data[0]);
 							$DateTimeEntregueProduto = new DateTime($data[9]);
@@ -75,7 +79,8 @@ class AdminController extends Controller
 							
 
 							$cliente = new cliente;
-							$cliente->cadastraCliente($clienteCPF,$clienteNome,$carteira);
+							$cliente->cadastraCliente($clienteCPF,$clienteNome,$carteiraDados->situacao_ficha_nova,$carteira);
+							
 							
 							$produto = new produto;
 							$produto->cadastraProdutoSatisfacao($cliente->id ,$id_produto,$nome_produto,$data_entregue_produto,$data_prometido,$id_pedido_marketplace,$id_marketplace,$carteira);
@@ -93,24 +98,25 @@ class AdminController extends Controller
 						
 						////				0				1			2			3				4				5					6				7			8				9			10				11	
 						//$header  = ['ID PEDIDO','ID RECLAMACAO','DATA SAC','NF MADEIRA','LINK RASTREIO','CLIENTE TELEFONE','CLIENTE TELEFONE 2','ID PEDPED','DESCRICAO','NOME CLIENTE','CPF CLIENTE','LOJA VENDA'];
-						$clienteCPF 		= trim($data[10]);
-						$clienteNome		= trim($data[9]);
+						$clienteCPF 			= trim($data[10]);
+						$clienteNome			= trim($data[9]);
 
-						$produtoDataSAC 	= $data[2];
-						$produtoNF			= $data[3];
-						$produtoLink		= $data[4];
-						$produtoIDPedido	= $data[7];
-						$produtoDescricao	= $data[8];
-						$produtoLJVenda		= $data[11];
+						$produtoIDReclamacao	= $data[1];
+						$produtoDataSAC 		= $data[2];
+						$produtoNF				= $data[3];
+						$produtoLink			= $data[4];
+						$produtoIDPedido		= $data[7];
+						$produtoDescricao		= $data[8];
+						$produtoLJVenda			= $data[11];
 
-						$tel1 				= $data[5];
-						$tel2				= $data[6];
+						$tel1 					= $data[5];
+						$tel2					= $data[6];
 						
 						$cliente = new cliente;
-						$cliente->cadastraCliente($clienteCPF,$clienteNome,$carteira);
+						$cliente->cadastraCliente($clienteCPF,$clienteNome,$carteiraDados->situacao_ficha_nova,$carteira);
 
 						$produto = new produto;
-						$produto->cadastraProdutoTransporte($cliente->id ,$produtoIDPedido,$produtoDescricao,$produtoDataSAC,$produtoLink,$produtoLJVenda,$carteira);
+						$produto->cadastraProdutoTransporte($cliente->id ,$produtoIDPedido,$produtoDescricao,$produtoDataSAC,$produtoLink,$produtoLJVenda,$carteira,$produtoIDReclamacao);
 
 						$telefone1 = new telefone;
 						$telefone1->SalvaTelefone($tel1,$cliente->id);
@@ -132,41 +138,12 @@ class AdminController extends Controller
 
     public function ocorrencia(){
 
-    	$quantiOcorrencia = DB::SELECT(DB::raw('SELECT DISTINCT USER,COUNT(id) as "quant" from ocorrencias WHERE created_at BETWEEN CONCAT( CURRENT_DATE()," 00:00:00") and CONCAT(CURRENT_DATE() ," 23:00:00") GROUP BY USER ORDER BY quant DESC'));
+    	$quantiOcorrencia = DB::SELECT(DB::raw('SELECT DISTINCT users.name AS user,	COUNT(ocorrencias.id) AS "quant" FROM ocorrencias INNER JOIN users ON users.id = ocorrencias.user_id WHERE ocorrencias.created_at BETWEEN CONCAT(CURRENT_DATE(), " 00:00:00") AND CONCAT(CURRENT_DATE(), " 23:00:00") GROUP BY USER_ID,users.name ORDER BY quant DESC'));
     	$quantiOcorrenciaSituacao = DB::SELECT(DB::raw('SELECT DISTINCT situacoes.nome as situacao,COUNT(ocorrencias.id) as quant from ocorrencias INNER JOIN situacoes ON ocorrencias.situacao_id = situacoes.id WHERE ocorrencias.created_at BETWEEN CONCAT( CURRENT_DATE()," 00:00:00") and CONCAT(CURRENT_DATE() ," 23:00:00") GROUP BY situacoes.nome ORDER BY quant desc'));
     	
     	$totalOcorrencia = ocorrencia::whereBetween('created_at',[date("Y-m-d").' 00:00:00',date("Y-m-d").' 23:59:59'])->count();
-    	//$ocorrencia = ocorrencia::whereBetween('created_at',[date("Y-m-d").' 00:00:00',date("Y-m-d").' 23:59:59'])->paginate(30);
-    	/*$ocorrencia = DB::SELECT(DB::raw('SELECT 
-	DISTINCT
-	clientes.id,
-	CPF,clientes.nome as nomeCliente,
-	id_pedido_marketplace,
-	(SELECT telefones.telefone as statusTelefone from telefones
-		INNER JOIN status ON status.id = telefones.status_id WHERE telefones.cliente_id =  clientes.id ORDER BY status.status limit 1 ) as tel,
-	(SELECT emails.email as statusEmail from emails
-		INNER JOIN status ON status.id = emails.status_id WHERE emails.cliente_id =  clientes.id ORDER BY status.status limit 1 ) as mail,
-	situacoes.nome as situacao,
-	ocorrencias.created_at,
-	REPLACE(ocorrencias.ocorrencia,"\r\n","") as ocorrencia  
-FROM 
-	clientes 
-INNER JOIN
-	produtos ON produtos.cliente_id =  clientes.ID
-INNER JOIN
-	ocorrencias ON ocorrencias.cliente_id = clientes.id
-INNER JOIN 
-	situacoes ON situacoes.id = ocorrencias.situacao_id
-LEFT JOIN
-	emails ON emails.cliente_id = clientes.id
-WHERE  
-	ocorrencias.created_at BETWEEN "2018-01-08 00:00:00" AND "2018-01-08 23:59:59"
-ORDER BY
-	ocorrencias.created_at desc LIMIT 30'));*/
 
-	$ocorrencia = null;
-
-    	return view('admin/ocorrencia',['quantiOcorrencia' => $quantiOcorrencia,'totalOcorrencia' => $totalOcorrencia,'quantiOcorrenciaSituacao' => $quantiOcorrenciaSituacao,'ocorrencia' => $ocorrencia]);
+    	return view('admin/ocorrencia',['quantiOcorrencia' => $quantiOcorrencia,'totalOcorrencia' => $totalOcorrencia,'quantiOcorrenciaSituacao' => $quantiOcorrenciaSituacao]);
     }
 
     public function clicks(){

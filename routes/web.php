@@ -24,6 +24,9 @@ Route::group(['middleware' => 'auth'],function(){
 		Route::get('agendaHora',		'ClienteController@agendaHoraList');
 		Route::get('agendaHora/{id}',	'ClienteController@agendaHoraID');
 
+		//Route::get('carteira/{id}/devolucao','ClienteController@devolucao');
+
+		
 		Route::post('salvaOcorrencia',	'ClienteController@salvaOcorrencia');
 		Route::post('salvaTelefone',	'ClienteController@salvaTelefone');
 		Route::post('salvaEmail',		'ClienteController@salvaEmail');
@@ -47,6 +50,10 @@ Route::group(['middleware' => 'auth'],function(){
 
 	Route::prefix('admin')->group(function () {
 
+		Route::resources([
+			'user' 	=> 'UserController'
+		]);
+
     	Route::get('clicks', 'AdminController@clicks');
 		Route::get('ocorrencia', 'AdminController@ocorrencia');
 		Route::get('extracao','AdminController@extracao');
@@ -58,6 +65,8 @@ Route::group(['middleware' => 'auth'],function(){
 			Route::get('','CarteiraController@index');
 			Route::get('{id}/edit','CarteiraController@edit');
 			Route::post('salvarEdit','CarteiraController@salvarEdit');
+			Route::get('{id}/devolucao','ClienteController@devolucao');
+	
 		});
 
 		Route::prefix('marketplace')->group(function () {

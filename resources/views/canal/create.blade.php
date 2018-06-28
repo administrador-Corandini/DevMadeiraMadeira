@@ -8,15 +8,7 @@
 					<h3 class="text-center">Criar um novo canal</h3>
 				</div>
 				<div class="panel-body">
-					@if ($errors->any())
-						<div class="alert alert-danger">
-							<ul>
-								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-						</div>
-					@endif
+					
 					
 					
 					<form method="post" action="{{url('cliente/canal')}}">

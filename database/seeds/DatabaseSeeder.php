@@ -64,9 +64,9 @@ class carteiraTableSeeder extends Seeder
 
     public function run()
     {
-       carteira::create(['nome' => 'MADEIRA MADEIRA']); 
-       carteira::create(['nome' => 'CASA 41']);
-       carteira::create(['nome' => 'TRANSPORTE']);  
+       carteira::create(['nome' => 'MADEIRA MADEIRA'    , 'situacao_ficha_nova' => 1]); 
+       carteira::create(['nome' => 'CASA 41'            , 'situacao_ficha_nova' => 11]);
+       carteira::create(['nome' => 'TRANSPORTE'         , 'situacao_ficha_nova' => 21]);  
     }
 }
 
@@ -88,8 +88,8 @@ class ClientesTableSeeder extends Seeder
 
     public function run()
     {
-       cliente::create(['nome'=> 'ANDREY RAFAH','CPF' => '07420746923','carteira_id' => 1]);
-       cliente::create(['nome'=> 'JOÃO DA SILVA','CPF' => '74125898711','carteira_id' => 1]);
+       cliente::create(['nome'=> 'ANDREY RAFAH','CPF'   => '07420746923',   'carteira_id' => 1, 'ATIVO' => 1]);
+       cliente::create(['nome'=> 'JOÃO DA SILVA','CPF'  => '74125898711',   'carteira_id' => 1, 'ATIVO' => 1]);
     }
 }
 
@@ -168,9 +168,9 @@ class OcorrenciasTableSeeder extends Seeder
 
     public function run()
     {
-      ocorrencia::create(['cliente_id' => '1','situacao_id' => 1, 'ocorrencia' => 'No meu xinélo da humildade eu gostaria muito de ver o Neymar e o Ganso. Por que eu acho que.... 11 entre 10 brasileiros gostariam. Você veja, eu já vi, parei de ver. Voltei a ver, e acho que o Neymar e o Ganso têm essa capacidade de fazer a gente olhar.']); 
-      ocorrencia::create(['cliente_id' => '1', 'situacao_id' => 1,'ocorrencia' => 'A única área que eu acho, que vai exigir muita atenção nossa, e aí eu já aventei a hipótese de até criar um ministério. É na área de... Na área... Eu diria assim, como uma espécie de analogia com o que acontece na área agrícola.']); 
-      ocorrencia::create(['cliente_id' => '1','situacao_id' => 1, 'ocorrencia' => 'Ai você fala o seguinte: "- Mas vocês acabaram isso?" Vou te falar: -"Não, está em andamento!" Tem obras que "vai" durar pra depois de 2010. Agora, por isso, nós já não desenhamos, não começamos a fazer projeto do que nós "podêmo fazê"? 11, 12, 13, 14... Por que é que não?']); 
+      ocorrencia::create(['cliente_id' => '1',  'situacao_id' => 1,'user_id' => 1,'ocorrencia' => 'No meu xinélo da humildade eu gostaria muito de ver o Neymar e o Ganso. Por que eu acho que.... 11 entre 10 brasileiros gostariam. Você veja, eu já vi, parei de ver. Voltei a ver, e acho que o Neymar e o Ganso têm essa capacidade de fazer a gente olhar.']); 
+      ocorrencia::create(['cliente_id' => '1',  'situacao_id' => 1,'user_id' => 1,'ocorrencia' => 'A única área que eu acho, que vai exigir muita atenção nossa, e aí eu já aventei a hipótese de até criar um ministério. É na área de... Na área... Eu diria assim, como uma espécie de analogia com o que acontece na área agrícola.']); 
+      ocorrencia::create(['cliente_id' => '1',  'situacao_id' => 1,'user_id' => 1, 'ocorrencia' => 'Ai você fala o seguinte: "- Mas vocês acabaram isso?" Vou te falar: -"Não, está em andamento!" Tem obras que "vai" durar pra depois de 2010. Agora, por isso, nós já não desenhamos, não começamos a fazer projeto do que nós "podêmo fazê"? 11, 12, 13, 14... Por que é que não?']); 
 
     }
 }
@@ -202,37 +202,37 @@ class situacaoTableSeeder extends Seeder
 
     public function run()
     {
-       situacao::create(['nome' => 'FICHA NOVA/CLIENTE NÃO ATENDE','carteira_id' => 1]); //1
-       situacao::create(['nome' => 'ENVIADO LINK DE AVALIAÇÃO','carteira_id' => 1]); //2
-       situacao::create(['nome' => 'NÃO TEM INTERESSE EM AVALIAR','carteira_id' => 1]); ///3
-       situacao::create(['nome' => 'PROBLEMA COM O PRODUTO','carteira_id' => 1]); //4
-       situacao::create(['nome' => 'PROBLEMA COM A ENTREGA','carteira_id' => 1]); //5
-       situacao::create(['nome' => 'CLIENTE JÁ FEZ A AVALIAÇÃO','carteira_id' => 1]); //6
-       situacao::create(['nome' => 'SEM CONTATO','carteira_id' => 1]);//7
-       situacao::create(['nome' => 'PRODUTO NÃO MONTADO','carteira_id' => 1]); //8
-       situacao::create(['nome' => 'CLT NÃO PODE FALAR AGORA','carteira_id' => 1]); //9
-       situacao::create(['nome' => '2x LINK AVALIAÇÃO','carteira_id' => 1]);//10
+       situacao::create(['nome' => 'FICHA NOVA'                     ,'carteira_id' => 1,'canal' => '0' ,'prioridade' => '1']); //1
+       situacao::create(['nome' => 'ENVIADO LINK DE AVALIAÇÃO'      ,'carteira_id' => 1,'canal' => '1' ,'prioridade' => '0']); //2
+       situacao::create(['nome' => 'NÃO TEM INTERESSE EM AVALIAR'   ,'carteira_id' => 1,'canal' => '1' ,'prioridade' => '0']); ///3
+       situacao::create(['nome' => 'PROBLEMA COM O PRODUTO'         ,'carteira_id' => 1,'canal' => '1' ,'prioridade' => '2']); //4
+       situacao::create(['nome' => 'PROBLEMA COM A ENTREGA'         ,'carteira_id' => 1,'canal' => '1' ,'prioridade' => '0']); //5
+       situacao::create(['nome' => 'CLIENTE JÁ FEZ A AVALIAÇÃO'     ,'carteira_id' => 1,'canal' => '1' ,'prioridade' => '2']); //6
+       situacao::create(['nome' => 'SEM CONTATO'                    ,'carteira_id' => 1,'canal' => '0' ,'prioridade' => '1']);//7
+       situacao::create(['nome' => 'PRODUTO NÃO MONTADO'            ,'carteira_id' => 1,'canal' => '1' ,'prioridade' => '2']); //8
+       situacao::create(['nome' => 'CLT NÃO PODE FALAR AGORA'       ,'carteira_id' => 1,'canal' => '1' ,'prioridade' => '2']); //9
+       situacao::create(['nome' => '2x LINK AVALIAÇÃO'              ,'carteira_id' => 1,'canal' => '1' ,'prioridade' => '0']);//10
        
-       situacao::create(['nome' => 'FICHA NOVA/CLIENTE NÃO ATENDE','carteira_id' => 2]); //1
-       situacao::create(['nome' => 'ENVIADO LINK DE AVALIAÇÃO','carteira_id' => 2]); //2
-       situacao::create(['nome' => 'NÃO TEM INTERESSE EM AVALIAR','carteira_id' => 2]); ///3
-       situacao::create(['nome' => 'PROBLEMA COM O PRODUTO','carteira_id' => 2]); //4
-       situacao::create(['nome' => 'PROBLEMA COM A ENTREGA','carteira_id' => 2]); //5
-       situacao::create(['nome' => 'CLIENTE JÁ FEZ A AVALIAÇÃO','carteira_id' => 2]); //6
-       situacao::create(['nome' => 'SEM CONTATO','carteira_id' => 2]);//7
-       situacao::create(['nome' => 'PRODUTO NÃO MONTADO','carteira_id' => 2]); //8
-       situacao::create(['nome' => 'CLT NÃO PODE FALAR AGORA','carteira_id' => 2]); //9
-       situacao::create(['nome' => '2x LINK AVALIAÇÃO','carteira_id' => 2]);//10
+       situacao::create(['nome' => 'FICHA NOVA'                     ,'carteira_id' => 2,'canal' => '0' ,'prioridade' => '1']); //1
+       situacao::create(['nome' => 'ENVIADO LINK DE AVALIAÇÃO'      ,'carteira_id' => 2,'canal' => '1' ,'prioridade' => '0']); //2
+       situacao::create(['nome' => 'NÃO TEM INTERESSE EM AVALIAR'   ,'carteira_id' => 2,'canal' => '1' ,'prioridade' => '0']); ///3
+       situacao::create(['nome' => 'PROBLEMA COM O PRODUTO'         ,'carteira_id' => 2,'canal' => '1' ,'prioridade' => '2']); //4
+       situacao::create(['nome' => 'PROBLEMA COM A ENTREGA'         ,'carteira_id' => 2,'canal' => '1' ,'prioridade' => '0']); //5
+       situacao::create(['nome' => 'CLIENTE JÁ FEZ A AVALIAÇÃO'     ,'carteira_id' => 2,'canal' => '1' ,'prioridade' => '2']); //6
+       situacao::create(['nome' => 'SEM CONTATO'                    ,'carteira_id' => 2,'canal' => '0' ,'prioridade' => '1']);//7
+       situacao::create(['nome' => 'PRODUTO NÃO MONTADO'            ,'carteira_id' => 2,'canal' => '1' ,'prioridade' => '2']); //8
+       situacao::create(['nome' => 'CLT NÃO PODE FALAR AGORA'       ,'carteira_id' => 2,'canal' => '1' ,'prioridade' => '2']); //9
+       situacao::create(['nome' => '2x LINK AVALIAÇÃO'              ,'carteira_id' => 2,'canal' => '1' ,'prioridade' => '0']);//10
 
-       situacao::create(['nome' => 'FICHA NOVA/CLIENTE NÃO ATENDE','carteira_id' => 3]); //1
-       situacao::create(['nome' => 'INFORMAÇÕES ATUALIZADAS','carteira_id' => 3]); //2
-       situacao::create(['nome' => 'CLIENTE NÃO TEM NOVAS INFORMAÇÕES','carteira_id' => 3]); ///3
-       situacao::create(['nome' => 'CLIENTE QUER CANCELAR COMPRA','carteira_id' => 3]); //4
-       situacao::create(['nome' => 'RETORNAR MAIS TARDE','carteira_id' => 3]); //5
-       situacao::create(['nome' => 'CLIENTE JÁ RECEBEU PRODUTO','carteira_id' => 3]); //6
-       situacao::create(['nome' => 'SEM CONTATO','carteira_id' => 3]);//7
-       situacao::create(['nome' => 'CLIENTE ALEGA NÃO TER FEITO A COMPRA','carteira_id' => 3]); //8
-       situacao::create(['nome' => 'PESQUISA SEM SUCESSO/TENTATIVAS ESGOTADAS','carteira_id' => 3]); //9
-       situacao::create(['nome' => 'FEEDBACK MADEIRA/EMAIL ENVIADO MADEIRA','carteira_id' => 3]);//10
+       situacao::create(['nome' => 'FICHA NOVA','carteira_id' => 3                                  ,'canal' => '0' ,'prioridade' => '1']); //1
+       situacao::create(['nome' => 'INFORMAÇÕES ATUALIZADAS','carteira_id' => 3                     ,'canal' => '1' ,'prioridade' => '0']); //2
+       situacao::create(['nome' => 'CLIENTE NÃO TEM NOVAS INFORMAÇÕES','carteira_id' => 3           ,'canal' => '1' ,'prioridade' => '0']); ///3
+       situacao::create(['nome' => 'CLIENTE QUER CANCELAR COMPRA','carteira_id' => 3                ,'canal' => '1' ,'prioridade' => '0']); //4
+       situacao::create(['nome' => 'RETORNAR MAIS TARDE','carteira_id' => 3                         ,'canal' => '0' ,'prioridade' => '1']); //5
+       situacao::create(['nome' => 'CLIENTE JÁ RECEBEU PRODUTO','carteira_id' => 3                  ,'canal' => '1' ,'prioridade' => '0']); //6
+       situacao::create(['nome' => 'SEM CONTATO','carteira_id' => 3                                 ,'canal' => '0' ,'prioridade' => '1']);//7
+       situacao::create(['nome' => 'CLIENTE ALEGA NÃO TER FEITO A COMPRA','carteira_id' => 3        ,'canal' => '1' ,'prioridade' => '0']); //8
+       situacao::create(['nome' => 'PESQUISA SEM SUCESSO/TENTATIVAS ESGOTADAS','carteira_id' => 3   ,'canal' => '0' ,'prioridade' => '0']); //9
+       situacao::create(['nome' => 'FEEDBACK MADEIRA/EMAIL ENVIADO MADEIRA','carteira_id' => 3      ,'canal' => '0' ,'prioridade' => '0']);//10
     }
 }

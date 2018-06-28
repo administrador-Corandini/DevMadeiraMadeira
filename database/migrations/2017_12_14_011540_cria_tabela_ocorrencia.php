@@ -19,9 +19,12 @@ class CriaTabelaOcorrencia extends Migration
             $table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('cascade');
             $table->integer('situacao_id')->unsigned();
             $table->foreign('situacao_id')->references('id')->on('situacoes');
-            $table->longText('ocorrencia');
-            $table->string('user')->default('');
+            $table->integer('canal_id')->unsigned()->default(1);
+            $table->foreign('canal_id')->references('id')->on('canals');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users'); 
             $table->integer('tipo_ocorrencia_id')->unsigned()->default(0);
+            $table->longText('ocorrencia');
             $table->timestamps();
         });
     }

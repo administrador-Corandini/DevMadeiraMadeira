@@ -9,6 +9,7 @@
                 <th>Carteira</th>
                 <th>Edit</th>
                 <th>Apagar</th>
+                <th>Devolver Clientes</th>
             </thead>
             <tbody>
               
@@ -17,7 +18,8 @@
                         <td>{!!$carteira->id!!}</td>
                         <td>{!!$carteira->nome!!}</td>
                         <td><a class="btn btn-primary btn-block" href="{{URL('admin/carteira/'.$carteira->id.'/edit')}}">EDITAR</a></td>
-                        <td><a class="btn btn-danger btn-block" href="">APAGAR</a></td>                   
+                        <td><a class="btn btn-danger btn-block" href="">APAGAR</a></td>
+                        <td><a href="{{url('admin/carteira/'.$carteira->id.'/devolucao')}}" class="btn btn-danger">Devolver</a></td>                   
                     </tr>
                     
                 @endforeach

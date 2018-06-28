@@ -13,6 +13,7 @@ class CriaCarteira extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('nome');
+            $table->integer('situacao_ficha_nova')->default(0);
             $table->timestamps();
         });
     }
