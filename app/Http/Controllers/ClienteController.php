@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Validator;
 //use Illuminate\Http\Request;
 use Request;
 use App\User;
-use App\Cliente;
+use App\cliente;
 Use App\statu;
 use App\ocorrencia;
 use App\telefone;

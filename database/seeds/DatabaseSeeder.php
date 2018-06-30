@@ -5,7 +5,7 @@ use App\User;
 use App\cliente;
 use App\telefone;
 use App\email;
-use App\Marketplace;
+use App\marketplace;
 use App\produto;
 use App\statu;
 use App\ocorrencia;
