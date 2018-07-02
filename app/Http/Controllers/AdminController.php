@@ -149,7 +149,7 @@ class AdminController extends Controller
     public function clicks(){
 
 		$links_abertos =  DB::select( DB::raw("SELECT DISTINCT tipo_envio_id,COUNT(links.id) AS enviados,sum(open) as abertos from links WHERE links.created_at BETWEEN CONCAT(CURRENT_DATE(),' 00:00:00') AND CONCAT(CURRENT_DATE(),' 23:59:59') GROUP BY tipo_envio_id") );		
-		return $links_abertos;
+		//return $links_abertos;
 		$links = link::whereBetween('created_at',[date("Y-m-d").' 00:00:00',date("Y-m-d").' 23:59:59'])->paginate(30);
 		$total = DB::select( DB::raw("SELECT COUNT(id) as quanti from links WHERE created_at BETWEEN CONCAT(CURRENT_DATE(),' 00:00:00')and CONCAT(CURRENT_DATE(),' 23:59:59')
 										UNION

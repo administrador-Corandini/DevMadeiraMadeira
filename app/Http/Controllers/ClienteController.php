@@ -71,7 +71,7 @@ class ClienteController extends Controller
     }
 
     $agendaHora = agendahora::where('data','<=',date('Y-m-d H:i:s'))->where('ativo',1)->orderBy('data')->get();
-    $fichas = Cliente::whereIn('situacao_id',[$situacoes])->paginate(30);
+    $fichas = Cliente::whereIn('situacao_id',[$situacoes])->where('ativo',1)->paginate(30);
     return view('cliente/list')->with('fichas', $fichas)->with('agendaHora',$agendaHora);
 
    }
