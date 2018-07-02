@@ -71,8 +71,8 @@ class cliente extends Model
             $this->situacao_id  = $busca[0]->situacao_id;
             $this->created_at   = $busca[0]->created_at;
             $this->updated_at   = $busca[0]->updated_at;
-            $busca->ativo = 1;
-            $busca->save();
+            $busca[0]->ativo = 1;
+            $busca[0]->save();
             
         }
         
