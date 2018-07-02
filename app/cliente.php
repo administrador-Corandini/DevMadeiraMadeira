@@ -51,7 +51,7 @@ class cliente extends Model
         $cpf = trim($cpf);
         $nome = trim($nome);
         $carteira = $carteira;
-        $busca = $this->where('CPF', $cpf)->first();
+        $busca = $this->where('CPF', $cpf)->get();
 
         
 
@@ -64,13 +64,13 @@ class cliente extends Model
             $this->save();
 
         }else{
-            $this->id           = $busca->id;
-            $this->CPF          = $busca->CPF;
-            $this->nome         = $busca->nome;
-            $this->carteira_id  = $busca->carteira_id;
-            $this->situacao_id  = $busca->situacao_id;
-            $this->created_at   = $busca->created_at;
-            $this->updated_at   = $busca->updated_at;
+            $this->id           = $busca[0]->id;
+            $this->CPF          = $busca[0]->CPF;
+            $this->nome         = $busca[0]->nome;
+            $this->carteira_id  = $busca[0]->carteira_id;
+            $this->situacao_id  = $busca[0]->situacao_id;
+            $this->created_at   = $busca[0]->created_at;
+            $this->updated_at   = $busca[0]->updated_at;
             $busca->ativo = 1;
             $busca->save();
             
