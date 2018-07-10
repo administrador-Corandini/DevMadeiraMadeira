@@ -140,7 +140,7 @@ class ClienteController extends Controller
     $cliente_id = Request::input('cliente_id');
 
     $rules = array(
-      'email'      => 'required|min:6|max:25',
+      'email'      => 'required|min:6|max:50',
       'status_id'     => 'required',
       'cliente_id'    => 'required'
     );
