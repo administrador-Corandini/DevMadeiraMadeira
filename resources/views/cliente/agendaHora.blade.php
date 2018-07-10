@@ -29,7 +29,7 @@
 				</tbody>
 			</table>
 
-			{{ $agendaHora }}
+			{!! $agendaHora !!}
 		</div>
 		@else
 			<div class="col-md-8 col-md-offset-2">

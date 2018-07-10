@@ -13,6 +13,16 @@
 							</div>
 							<div class="panel-body">
 
+								@if($cliente->ativo == 1)
+									<div class="alert alert-success">
+										Esse Cliente esta ATIVO
+									</div>
+								@else
+									<div class="alert alert-danger">
+										Esse Cliente esta INATIVO
+									</div>
+								@endif
+
 								<div class="form-group">
 									<label>Nome:</label>
 									<input class="form-control" type="text" name="name" value="{!!$cliente->nome!!}" disabled>

@@ -20,7 +20,12 @@ class ClienteController extends Controller
 {
   public function show($id){
     $canal = canal::all();
-    $agendaHora = agendahora::where('data','<=',date('Y-m-d H:i:s'))->where('ativo',0)->orderBy('data')->get();
+    $agendaHora = agendahora::join('clientes','clientes.id','=','agenda_horas.cliente_id')
+      ->where('agenda_horas.data','<=',date('Y-m-d H:i:s'))
+      ->where('agenda_horas.ativo',1)
+      ->where('clientes.ativo','=',1)
+      ->orderBy('agenda_horas.data')
+      ->get();
    	$cliente = Cliente::findOrFail($id);
     $ocorrencia = ocorrencia::where('cliente_id', $id)->orderBy('created_at','DESC')->paginate(3);
     $status = statu::all();
@@ -47,32 +52,41 @@ class ClienteController extends Controller
       $cliente = cliente::where('nome','like','%'.$name.'%')->paginate(30);
 
     if( $tel <> "" ){
-      $cliente = new cliente;
-      $cliente = DB::select("select clientes.* from clientes inner join telefones on telefones.cliente_id = clientes.id where telefone like ?",['%'.$tel.'%']);
+      $cliente = cliente::join('telefones','telefones.cliente_id','=','clientes.id')->where('telefones.telefone','like','%'.$tel.'%')->distinct()->paginate(30);
     }
 
     if($cpf == "" AND $name == "" AND $tel == "" ){
       return redirect('home');
     }
+    
 
-    $agendaHora = agendahora::where('data','<=',date('Y-m-d H:i:s'))->where('ativo',0)->orderBy('data')->get();
+    $agendaHora = agendahora::join('clientes','clientes.id','=','agenda_horas.cliente_id')
+      ->where('agenda_horas.data','<=',date('Y-m-d H:i:s'))
+      ->where('agenda_horas.ativo',1)
+      ->where('clientes.ativo','=',1)
+      ->orderBy('agenda_horas.data')
+      ->get();
 
     return view('cliente/search')->with('cliente', $cliente)->with('agendaHora',$agendaHora);
 
   }
 
    public function list(){
-    $agendaHora = agendahora::where('data','<=',date('Y-m-d H:i:s'))->where('ativo',0)->orderBy('data')->get();
+    $agendaHora = agendahora::join('clientes','clientes.id','=','agenda_horas.cliente_id')
+      ->where('agenda_horas.data','<=',date('Y-m-d H:i:s'))
+      ->where('agenda_horas.ativo',1)
+      ->where('clientes.ativo','=',1)
+      ->orderBy('agenda_horas.data')
+      ->get();
     $situacao = situacao::where('prioridade','>','0')->orderBy('prioridade')->get();
     $situacoes = array();
     
     foreach($situacao as $s){
       $situacoes[] = $s->id;
     }
-
-    $agendaHora = agendahora::where('data','<=',date('Y-m-d H:i:s'))->where('ativo',1)->orderBy('data')->get();
-    $fichas = Cliente::whereIn('situacao_id',[$situacoes])->where('ativo',1)->paginate(30);
-    return view('cliente/list')->with('fichas', $fichas)->with('agendaHora',$agendaHora);
+    
+    $fichas = cliente::where('ativo',1)->whereIn('situacao_id',$situacoes)->paginate(30);
+    return view('cliente/list',compact('fichas','agendaHora'));
 
    }
 

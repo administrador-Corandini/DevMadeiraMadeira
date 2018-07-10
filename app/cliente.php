@@ -33,7 +33,7 @@ class cliente extends Model
     }
 
     public function getNomeAttribute($value){
-        return special_ucwords($value);
+        return strtoupper($value);
     }
 
     public function getCpfAttribute($value){
